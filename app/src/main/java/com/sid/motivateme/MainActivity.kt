@@ -23,18 +23,13 @@ class MainActivity : AppCompatActivity() {
 
         init()
 
-
-
-
         binding.btnNext.setOnClickListener {
-            setQuoteBackground()
             observeQuote()
         }
     }
 
     fun init() {
 
-        setQuoteBackground()
         viewModel.isFirstRun.observe(this) { isFirstRun ->
             if (isFirstRun) {
                 observeInstalling()
@@ -46,13 +41,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun observeQuote() {
-        viewModel.getQuoteById(Random.nextInt(1, viewModel.getQuoteListSize())).observe(this) {
-            if (it != null) {
-                binding.tvQuote.text = it.quote
+        /*   viewModel.getQuoteById(Random.nextInt(1, viewModel.getQuoteListSize())).observe(this) {
+               if (it != null) {
+                   binding.tvQuote.text = it.quote
+               } else {
+                   binding.tvQuote.text = "Please try again"
+               }
+           }*/
+
+        viewModel.getRandomQuote().observe(this) { quoteList ->
+            if (quoteList != null) {
+                val quoteNetworkEntity = quoteList.get(0)
+
+                binding.tvQuote.text = quoteNetworkEntity.content +"\n-"+quoteNetworkEntity.author
             } else {
                 binding.tvQuote.text = "Please try again"
             }
         }
+
+        viewModel.fetchRandomQuote()
+
     }
 
     fun observeInstalling() {
@@ -67,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun setQuoteBackground() {
+    /*fun setQuoteBackground() {
 
 
         // Get the URI of the video file from the raw folder
@@ -83,12 +91,9 @@ class MainActivity : AppCompatActivity() {
 
         // Start the video playback
         binding.vvQuotebg.start()
-    }
+    }*/
 
-    override fun onResume() {
-        super.onResume()
-        setQuoteBackground()
-    }
+
 }
 
 

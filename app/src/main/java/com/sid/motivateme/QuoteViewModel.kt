@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.sid.motivateme.quotenetwork.QuoteNetworkEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -57,5 +58,18 @@ class QuoteViewModel @Inject constructor(private val repository: QuoteRepository
    fun getQuoteListSize() : Int{
        return repository.getQuoteList().size
    }
+
+
+
+    fun getRandomQuote(): LiveData<List<QuoteNetworkEntity>> {
+        return repository.getRandomQuoteFlow().asLiveData()
+    }
+
+    // Method to fetch a random quote
+    fun fetchRandomQuote() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.getRandomQuote()
+        }
+    }
 
 }

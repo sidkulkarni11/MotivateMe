@@ -1,11 +1,15 @@
 package com.sid.motivateme
 
+import com.sid.motivateme.quotenetwork.QuoteApiService
+import com.sid.motivateme.quotenetwork.QuoteNetworkEntity
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class QuoteRepository @Inject constructor(
     private val quoteDao: QuoteDao,
-    private val settingsDataStore: SettingsDataStore
+    private val settingsDataStore: SettingsDataStore,
+    private val apiService: QuoteApiService
 ) {
 
     val allQuotes: Flow<List<QuoteEntity>> = quoteDao.getAllQuotes()
@@ -129,204 +133,10 @@ class QuoteRepository @Inject constructor(
             "The mind is everything. What you think you become."
         )
 
-        val quotesList2 = listOf(
-            "The best way to predict the future is to invent it.",
-            "Life is 10% what happens to us and 90% how we react to it.",
-            "You have within you right now, everything you need to deal with whatever the world can throw at you.",
-            "Everything has beauty, but not everyone can see.",
-            "The secret of getting ahead is getting started.",
-            "Happiness is not something ready made. It comes from your own actions.",
-            "You are never too old to set another goal or to dream a new dream.",
-            "What we think, we become.",
-            "You do not find the happy life. You make it.",
-            "Don’t be pushed around by the fears in your mind. Be led by the dreams in your heart.",
-            "Life is 10% what happens to us and 90% how we react to it.",
-            "The future belongs to those who believe in the beauty of their dreams.",
-            "Don’t let the noise of others’ opinions drown out your own inner voice.",
-            "The only limit to our realization of tomorrow is our doubts of today.",
-            "What lies behind us and what lies before us are tiny matters compared to what lies within us.",
-            "You are never too old to set another goal or to dream a new dream.",
-            "Act as if what you do makes a difference. It does.",
-            "The best way to predict your future is to create it.",
-            "Everything you've ever wanted is on the other side of fear.",
-            "The only way to achieve the impossible is to believe it is possible.",
-            "In the middle of difficulty lies opportunity.",
-            "Success is not how high you have climbed, but how you make a positive difference to the world.",
-            "Life is 10% what happens to us and 90% how we react to it.",
-            "Start where you are. Use what you have. Do what you can.",
-            "The best preparation for tomorrow is doing your best today.",
-            "The only impossible journey is the one you never begin.",
-            "You have within you right now, everything you need to deal with whatever the world can throw at you.",
-            "You are never too old to set another goal or to dream a new dream.",
-            "The only way to achieve the impossible is to believe it is possible.",
-            "The future belongs to those who believe in the beauty of their dreams.",
-            "The best revenge is massive success.",
-            "Success is not final, failure is not fatal: It is the courage to continue that counts.",
-            "The secret of getting ahead is getting started.",
-            "The journey of a thousand miles begins with one step.",
-            "Everything has beauty, but not everyone can see.",
-            "Act as if what you do makes a difference. It does.",
-            "The only limit to our realization of tomorrow is our doubts of today.",
-            "The future belongs to those who believe in the beauty of their dreams.",
-            "Don’t let the noise of others’ opinions drown out your own inner voice.",
-            "The best way to find yourself is to lose yourself in the service of others.",
-            "What lies behind us and what lies before us are tiny matters compared to what lies within us.",
-            "Life is short, and it is up to you to make it sweet.",
-            "You are never too old to set another goal or to dream a new dream.",
-            "The best revenge is massive success.",
-            "You do not find the happy life. You make it.",
-            "The only limit to our realization of tomorrow is our doubts of today.",
-            "The journey of a thousand miles begins with one step.",
-            "The only way to achieve the impossible is to believe it is possible.",
-            "Start where you are. Use what you have. Do what you can.",
-            "The only limit to our realization of tomorrow is our doubts of today.",
-            "Success usually comes to those who are too busy to be looking for it.",
-            "The best preparation for tomorrow is doing your best today.",
-            "You are never too old to set another goal or to dream a new dream.",
-            "Everything you've ever wanted is on the other side of fear.",
-            "Act as if what you do makes a difference. It does.",
-            "Don’t let the noise of others’ opinions drown out your own inner voice.",
-            "The future belongs to those who believe in the beauty of their dreams.",
-            "What we think, we become.",
-            "The only impossible journey is the one you never begin.",
-            "The secret of getting ahead is getting started.",
-            "The only way to do great work is to love what you do.",
-            "Success is not final, failure is not fatal: It is the courage to continue that counts."
-        )
 
-        val quotesList3 = listOf(
-            "To be yourself in a world that is constantly trying to make you something else is the greatest accomplishment.",
-            "In the end, we will remember not the words of our enemies, but the silence of our friends.",
-            "We can complain because rose bushes have thorns, or rejoice because thorns have roses.",
-            "The only way to do great work is to love what you do.",
-            "The best way to predict the future is to invent it.",
-            "We are what we repeatedly do. Excellence, then, is not an act, but a habit.",
-            "Life isn’t about waiting for the storm to pass, it’s about learning how to dance in the rain.",
-            "Do what you can, with what you have, where you are.",
-            "You must be the change you wish to see in the world.",
-            "Everything you’ve ever wanted is on the other side of fear.",
-            "The best revenge is massive success.",
-            "Life is short, and it is up to you to make it sweet.",
-            "The only impossible journey is the one you never begin.",
-            "What we think, we become.",
-            "Success is not final, failure is not fatal: It is the courage to continue that counts.",
-            "The only limit to our realization of tomorrow is our doubts of today.",
-            "Believe you can and you’re halfway there.",
-            "Start where you are. Use what you have. Do what you can.",
-            "The future belongs to those who believe in the beauty of their dreams.",
-            "Happiness is not something ready made. It comes from your own actions.",
-            "The secret of getting ahead is getting started.",
-            "Life is what happens when you’re busy making other plans.",
-            "The greatest glory in living lies not in never falling, but in rising every time we fall.",
-            "You miss 100% of the shots you don’t take.",
-            "The journey of a thousand miles begins with one step.",
-            "Don’t let the noise of others’ opinions drown out your own inner voice.",
-            "Success usually comes to those who are too busy to be looking for it.",
-            "Dream big and dare to fail.",
-            "Life is really simple, but we insist on making it complicated.",
-            "Act as if what you do makes a difference. It does.",
-            "The mind is everything. What you think you become.",
-            "The only way to achieve the impossible is to believe it is possible.",
-            "Your time is limited, don’t waste it living someone else’s life.",
-            "You are never too old to set another goal or to dream a new dream.",
-            "In the middle of every difficulty lies opportunity.",
-            "The only limit to our realization of tomorrow is our doubts of today.",
-            "You do not find the happy life. You make it.",
-            "Happiness is not something ready made. It comes from your own actions.",
-            "The only person you are destined to become is the person you decide to be.",
-            "Life is short, and it is up to you to make it sweet.",
-            "Success is not how high you have climbed, but how you make a positive difference to the world.",
-            "You have within you right now, everything you need to deal with whatever the world can throw at you.",
-            "Everything has beauty, but not everyone can see.",
-            "Life is either a daring adventure or nothing at all.",
-            "The best preparation for tomorrow is doing your best today.",
-            "The only impossible journey is the one you never begin.",
-            "The journey of a thousand miles begins with one step.",
-            "You are not only responsible for what you say, but also for what you do not say.",
-            "The future belongs to those who believe in the beauty of their dreams.",
-            "Don’t let the noise of others’ opinions drown out your own inner voice.",
-            "We do not remember days; we remember moments.",
-            "You are never too old to set another goal or to dream a new dream.",
-            "Life is what we make it, always has been, always will be.",
-            "Everything you’ve ever wanted is on the other side of fear.",
-            "The best revenge is massive success.",
-            "Start where you are. Use what you have. Do what you can.",
-            "The best way to find yourself is to lose yourself in the service of others.",
-            "The only way to do great work is to love what you do.",
-            "Success is not final, failure is not fatal: It is the courage to continue that counts.",
-            "The greatest glory in living lies not in never falling, but in rising every time we fall.",
-            "You do not find the happy life. You make it.",
-            "Dream big and dare to fail.",
-            "Life isn’t about waiting for the storm to pass, it’s about learning how to dance in the rain.",
-            "The secret of getting ahead is getting started.",
-            "You are never too old to set another goal or to dream a new dream.",
-            "Happiness is not something ready made. It comes from your own actions.",
-            "The only way to achieve the impossible is to believe it is possible.",
-            "Act as if what you do makes a difference. It does.",
-            "The best way to predict your future is to create it.",
-            "The journey of a thousand miles begins with one step.",
-            "The only limit to our realization of tomorrow is our doubts of today.",
-            "Life is really simple, but we insist on making it complicated.",
-            "Start where you are. Use what you have. Do what you can.",
-            "Don’t be pushed around by the fears in your mind. Be led by the dreams in your heart.",
-            "The mind is everything. What you think you become.",
-            "The best way to predict the future is to invent it.",
-            "Believe you can and you’re halfway there.",
-            "You have within you right now, everything you need to deal with whatever the world can throw at you.",
-            "The future belongs to those who believe in the beauty of their dreams.",
-            "Success usually comes to those who are too busy to be looking for it.",
-            "The only way to achieve the impossible is to believe it is possible.",
-            "Don’t let the noise of others’ opinions drown out your own inner voice.",
-            "Life is short, and it is up to you to make it sweet.",
-            "Everything has beauty, but not everyone can see.",
-            "The best preparation for tomorrow is doing your best today.",
-            "You are never too old to set another goal or to dream a new dream.",
-            "Success is not how high you have climbed, but how you make a positive difference to the world.",
-            "Act as if what you do makes a difference. It does.",
-            "You are never too old to set another goal or to dream a new dream.",
-            "The only limit to our realization of tomorrow is our doubts of today.",
-            "The secret of getting ahead is getting started.",
-            "The journey of a thousand miles begins with one step.",
-            "Life is either a daring adventure or nothing at all.",
-            "The only way to achieve the impossible is to believe it is possible.",
-            "You do not find the happy life. You make it.",
-            "Start where you are. Use what you have. Do what you can.",
-            "Don’t let the noise of others’ opinions drown out your own inner voice.",
-            "Believe you can and you’re halfway there.",
-            "Life is what happens when you’re busy making other plans.",
-            "The future belongs to those who believe in the beauty of their dreams.",
-            "The best way to find yourself is to lose yourself in the service of others.",
-            "Success is not final, failure is not fatal: It is the courage to continue that counts.",
-            "You have within you right now, everything you need to deal with whatever the world can throw at you.",
-            "The only way to do great work is to love what you do.",
-            "The mind is everything. What you think you become.",
-            "The journey of a thousand miles begins with one step.",
-            "Life is short, and it is up to you to make it sweet.",
-            "You are never too old to set another goal or to dream a new dream.",
-            "Everything you’ve ever wanted is on the other side of fear.",
-            "The only impossible journey is the one you never begin.",
-            "Success usually comes to those who are too busy to be looking for it.",
-            "Start where you are. Use what you have. Do what you can.",
-            "Happiness is not something ready made. It comes from your own actions.",
-            "The only limit to our realization of tomorrow is our doubts of today.",
-            "The best revenge is massive success.",
-            "Act as if what you do makes a difference. It does.",
-            "Life is what we make it, always has been, always will be.",
-            "You are not only responsible for what you say, but also for what you do not say.",
-            "The future belongs to those who believe in the beauty of their dreams.",
-            "The only way to achieve the impossible is to believe it is possible.",
-            "The best preparation for tomorrow is doing your best today.",
-            "The only way to do great work is to love what you do.",
-            "The secret of getting ahead is getting started.",
-            "Everything has beauty, but not everyone can see.",
-            "Life is really simple, but we insist on making it complicated.",
-            "Success is not how high you have climbed, but how you make a positive difference to the world.",
-            "You are never too old to set another goal or to dream a new dream.",
-            "The only impossible journey is the one you never begin."
-        )
 
         // Combine both lists and remove duplicates
-        val allQuotes = (quotes + quotesList2 + quotesList3).distinct()
+        val allQuotes = (quotes).distinct()
 
 
         // Create a list of QuoteEntity with unique quotes
@@ -335,4 +145,17 @@ class QuoteRepository @Inject constructor(
         }
         return quoteEntities
     }
+
+
+
+
+    suspend fun getRandomQuote(): List<QuoteNetworkEntity> {
+        return apiService.getRandomQuote()
+    }
+
+    fun getRandomQuoteFlow(): Flow<List<QuoteNetworkEntity>> = flow {
+        emit(apiService.getRandomQuote())
+    }
+
+
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MotivateMe</string>
+    <string name="app_name">MHM</string>
     <string name="inital_text">Welcome to the world of affirmations\nPlease wait till we get ready</string>
     <string name="motivate_string">Click below to motivate yourself</string>
 </resources>
