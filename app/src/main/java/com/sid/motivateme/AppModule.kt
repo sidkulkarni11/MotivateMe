@@ -18,10 +18,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    @Provides
-    fun provideQuoteDao(quoteDatabase: QuoteDatabase): QuoteDao {
-        return quoteDatabase.quoteDao()
-    }
 
     @Provides
     @Singleton
@@ -38,12 +34,6 @@ object AppModule {
         return OkHttpClient.Builder()
             .addInterceptor(chuckerInterceptor)
             .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideDatabase(@ApplicationContext appContext: Context): QuoteDatabase {
-        return QuoteDatabase.getDatabase(appContext)
     }
 
     @Provides
